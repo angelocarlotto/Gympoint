@@ -13,7 +13,7 @@ class UserControler {
                 .min(6),
         });
 
-        if (!(await schema.isValid(res.body))) {
+        if (!(await schema.isValid(req.body))) {
             return res.status(400).json({ error: 'validation fails' });
         }
 
@@ -42,7 +42,7 @@ class UserControler {
             ),
         });
 
-        if (!(await schema.isValid(res.body))) {
+        if (!(await schema.isValid(req.body))) {
             return res.status(400).json({ error: 'validation fails' });
         }
 
@@ -53,7 +53,9 @@ class UserControler {
                 where: { email },
             });
             if (userExist) {
-                return res.status(400).json({ erro: 'user already exist' });
+                return res
+                    .status(400)
+                    .json({ erro: 'user email already exist' });
             }
         }
 
@@ -61,9 +63,9 @@ class UserControler {
             return res.status(401).json({ erro: 'password does not match' });
         }
 
-        const { id, name, provider } = await user.update(req.body);
+        const { id, name } = await user.update(req.body);
 
-        return res.json({ id, name, email, provider });
+        return res.json({ id, name, email });
     }
 }
 
