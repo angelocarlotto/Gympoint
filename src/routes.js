@@ -5,7 +5,9 @@ import StudentController from './app/controllers/StudentController';
 import authMiddleWares from './app/middlewares/auth';
 
 const routes = new Router();
-
+routes.get('/lalala',(req,res)=>{
+    return res.json({msg:"rodrigo lindo"});
+})
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
