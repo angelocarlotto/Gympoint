@@ -7,9 +7,6 @@ import PlanController from './app/controllers/PlanController';
 import authMiddleWares from './app/middlewares/auth';
 
 const routes = new Router();
-routes.get('/lalala',(req,res)=>{
-    return res.json({msg:"rodrigo lindo"});
-})
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
@@ -23,11 +20,11 @@ routes.put('/students', StudentController.update);
 routes.get('/plans', PlanController.index);
 routes.post('/plans', PlanController.store);
 routes.put('/plans', PlanController.update);
-routes.delete('/plans', PlanController.delete);
+routes.delete('/plans/:id', PlanController.delete);
 
 routes.get('/enrrollments', EnrrollmentController.index);
-routes.get('/enrrollments', EnrrollmentController.index);
+routes.post('/enrrollments', EnrrollmentController.store);
 routes.put('/enrrollments', EnrrollmentController.update);
-routes.delete('/enrrollments', EnrrollmentController.delete);
+routes.delete('/enrrollments/:id', EnrrollmentController.delete);
 
 export default routes;

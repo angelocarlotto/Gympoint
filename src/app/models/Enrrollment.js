@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+// import { /* isBefore, parseISO, */ addMonths } from 'date-fns';
 
 class Enrrollment extends Model {
     static init(sequelize) {
@@ -7,6 +8,18 @@ class Enrrollment extends Model {
                 start_date: Sequelize.DATE,
                 end_date: Sequelize.DATE,
                 price: Sequelize.FLOAT,
+                /* end_date: {
+                    type: Sequelize.VIRTUAL,
+                    get() {
+                        return addMonths(this.start_date, this.plan.duration);
+                    },
+                },
+                price: {
+                    type: Sequelize.VIRTUAL,
+                    get() {
+                        return this.plan.duration * this.plan.price;
+                    },
+                }, */
             },
             {
                 sequelize,
