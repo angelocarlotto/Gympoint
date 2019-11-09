@@ -3,7 +3,7 @@ import { /* isBefore, */ parseISO, addMonths } from 'date-fns';
 import Enrrollment from '../models/Enrrollment';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
-import CancellationMail from '../jobs/CancellationMail';
+import CancellationMail from '../jobs/NewEnrrollmentMail';
 import Queue from '../../lib/Queue';
 // import Mail from '../../lib/Mail';
 

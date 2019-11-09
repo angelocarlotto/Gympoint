@@ -3,9 +3,9 @@
 
 import Mail from '../../lib/Mail';
 
-class CancellationMail {
+class NewEnrrollmentMail {
     get key() {
-        return 'CancellationMail';
+        return 'NewEnrrollmentMail';
     }
 
     async handle({ data }) {
@@ -31,10 +31,10 @@ class CancellationMail {
 
         const obj = {
             to: `${enrrollment.student.name} <${enrrollment.student.email}>`,
-            subject: 'GYMPOINT: agendamento cancelado',
-            template: 'cancellation',
+            subject: 'GYMPOINT: Nova Matricula Realizada',
+            template: 'newenrrollment',
             context: {
-                student: 'enrrollment.student.name',
+                student: enrrollment.student.name,
                 plan: enrrollment.plan.title,
                 start_date: enrrollment.start_date,
                 end_date: enrrollment.end_date,
@@ -43,8 +43,8 @@ class CancellationMail {
         };
         await Mail.sendMail(obj);
 
-        return 'CancellationMail';
+        return 'NewEnrrollmentMail';
     }
 }
 
-export default new CancellationMail();
+export default new NewEnrrollmentMail();
