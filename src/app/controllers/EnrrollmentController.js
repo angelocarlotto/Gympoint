@@ -3,6 +3,9 @@ import { /* isBefore, */ parseISO, addMonths } from 'date-fns';
 import Enrrollment from '../models/Enrrollment';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
+import CancellationMail from '../jobs/CancellationMail';
+import Queue from '../../lib/Queue';
+// import Mail from '../../lib/Mail';
 
 class EnrrollmentsController {
     async index(req, res) {
@@ -56,7 +59,7 @@ class EnrrollmentsController {
 
         const price = plan.price * plan.duration;
 
-        const { id } = await Enrrollment.create({
+        const enrrollments = await Enrrollment.create({
             student_id,
             plan_id,
             start_date,
@@ -64,8 +67,40 @@ class EnrrollmentsController {
             price,
         });
 
+        const enrrollment = await Enrrollment.findByPk(enrrollments.id, {
+            include: [
+                {
+                    model: Student,
+                    as: 'student',
+                    attributes: ['name', 'email'],
+                },
+                {
+                    model: Plan,
+                    as: 'plan',
+                    attributes: ['title', 'price', 'duration'],
+                },
+            ],
+        });
+        /* const obj = {
+            to: `${student.name} <${student.email}>`,
+            subject: 'GYMPOINT: agendamento cancelado',
+            template: 'cancellation',
+            context: {
+                student: student.name,
+                plan: plan.title,
+                start_date,
+                end_date,
+                price,
+            },
+        };
+        await Mail.sendMail(obj);
+        */
+        await Queue.add(CancellationMail.key, {
+            enrrollment,
+        });
+
         return res.json({
-            id,
+            id: enrrollments.id,
             student_id,
             plan_id,
             start_date,

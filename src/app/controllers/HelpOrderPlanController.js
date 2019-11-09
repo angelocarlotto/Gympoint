@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import HelpOrderPlan from '../models/HelpOrderPlan';
+import HelpOrderPlan from '../models/HelpOrder';
 
 class HelpOrderPlanController {
     async index(req, res) {
