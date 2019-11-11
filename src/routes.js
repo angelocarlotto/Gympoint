@@ -4,6 +4,7 @@ import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import EnrrollmentController from './app/controllers/EnrrollmentController';
 import HelpOrderPlanController from './app/controllers/HelpOrderPlanController';
+import UnansweredHelpOrderPlanController from './app/controllers/UnansweredHelpOrderPlanController';
 
 import CheckinController from './app/controllers/CheckinController';
 import PlanController from './app/controllers/PlanController';
@@ -26,7 +27,13 @@ routes.put('/users', UserController.update);
 routes.get('/students', StudentController.index);
 routes.post('/students', StudentController.store);
 routes.put('/students', StudentController.update);
-routes.put('/students/:student_id/answer', StudentController.update);
+
+routes.put(
+    '/help-orders/:help_order_id/answer',
+    HelpOrderPlanController.update
+);
+
+routes.get('/help-orders/unanswer', UnansweredHelpOrderPlanController.index);
 
 routes.get('/plans', PlanController.index);
 routes.post('/plans', PlanController.store);
