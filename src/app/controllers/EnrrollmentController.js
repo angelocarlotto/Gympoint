@@ -3,7 +3,7 @@ import { /* isBefore, */ parseISO, addMonths } from 'date-fns';
 import Enrrollment from '../models/Enrrollment';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
-import CancellationMail from '../jobs/NewEnrrollmentMail';
+import NewEnrrollmentMail from '../jobs/NewEnrrollmentMail';
 import Queue from '../../lib/Queue';
 // import Mail from '../../lib/Mail';
 
@@ -95,7 +95,7 @@ class EnrrollmentsController {
         };
         await Mail.sendMail(obj);
         */
-        await Queue.add(CancellationMail.key, {
+        await Queue.add(NewEnrrollmentMail.key, {
             enrrollment,
         });
 

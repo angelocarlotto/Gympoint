@@ -10,24 +10,6 @@ class NewEnrrollmentMail {
 
     async handle({ data }) {
         const { enrrollment } = data;
-        /* console.log('Ca fila executou');
-        const { appointment } = data;
-        const obj = {
-            to: `${appointment.provider.name} <${appointment.provider.email}>`,
-            subject: 'GYMPOINT: agendamento cancelado',
-            text: 'voce tem um novo cancelamento',
-            template: 'cancellation',
-            context: {
-                provider: appointment.provider.name,
-                user: appointment.user.name,
-                date: format(
-                    parseISO(appointment.date),
-                    "'dia' dd 'de' MMM, 'às' H:mm'h'",
-                    { locale: pt }
-                ),
-            },
-        };
-        await Mail.sendMail(obj); */
 
         const obj = {
             to: `${enrrollment.student.name} <${enrrollment.student.email}>`,

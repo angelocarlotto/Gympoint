@@ -5,12 +5,12 @@ class UnansweredHelpOrderPlanController {
     async index(req, res) {
         const helporders = await HelpOrderPlan.findAll({
             where: { answer_at: null },
-            attributes: ['question', 'created_at'],
+            attributes: ['id', 'question', 'created_at'],
             include: [
                 {
                     model: Student,
                     as: 'student',
-                    attributes: ['name', 'email'],
+                    attributes: ['id', 'name', 'email'],
                 },
             ],
         });

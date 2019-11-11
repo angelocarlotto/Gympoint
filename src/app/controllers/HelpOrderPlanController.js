@@ -1,5 +1,7 @@
 import HelpOrderPlan from '../models/HelpOrder';
 import Student from '../models/Student';
+import Queue from '../../lib/Queue';
+import AnswerQuestionOrderMail from '../jobs/AnswerQuestionOrderMail';
 
 class HelpOrderPlanController {
     async index(req, res) {
@@ -34,12 +36,19 @@ class HelpOrderPlanController {
         const { help_order_id } = req.params;
         const { answer } = req.body;
 
-        const help_order = await HelpOrderPlan.findByPk(help_order_id);
+        const help_order = await HelpOrderPlan.findByPk(help_order_id, {
+            include: [
+                {
+                    model: Student,
+                    as: 'student',
+                },
+            ],
+        });
         if (!help_order) {
             return res.status(400).json({ error: 'Help order does not exist' });
         }
 
-        if (help_order.answer_at) {
+         if (help_order.answer_at) {
             return res.status(400).json({
                 error: 'Help order already answered',
                 help_Order: help_order,
@@ -54,6 +63,10 @@ class HelpOrderPlanController {
         help_order.answer = answer;
         help_order.answer_at = new Date();
         await help_order.save();
+
+        await Queue.add(AnswerQuestionOrderMail.key, {
+            help_order,
+        });
 
         return res.json(help_order);
     }
